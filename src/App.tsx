@@ -17,14 +17,10 @@ import {
   SelectGroup,
 } from "./components/ui/select";
 import { Card, CardHeader, CardTitle } from "./components/ui/card";
+import { useSearchHistory } from "./hooks/use-search-history";
+import { search, type SearchEngineProps } from "./lib/search";
 
 type SearchEngine = "google" | "yandex";
-
-interface SearchEngineProps {
-  title: string;
-  url: string;
-  name: string;
-}
 
 const engines: { [key in SearchEngine]: SearchEngineProps } = {
   google: {
@@ -40,6 +36,7 @@ const engines: { [key in SearchEngine]: SearchEngineProps } = {
 };
 
 export function App() {
+  const [history, pushToHistory] = useSearchHistory();
   const [engine, setEngine] = useState<SearchEngine>("google");
   const [value, setValue] = useState("");
   const [focus, setFocus] = useState(false);
@@ -49,16 +46,14 @@ export function App() {
       <div className="flex w-full gap-4 justify-center relative">
         <div className="absolute w-full flex items-start justify-center gap-2">
           <Command className="rounded-lg border shadow-md max-w-[450px] h-full">
-            <form id="search" action={engines[engine].url}>
-              <CommandInput
-                name={engines[engine].name}
-                placeholder={`Search in ${engines[engine].title}...`}
-                value={value}
-                onValueChange={setValue}
-                onFocus={() => setFocus(true)}
-                onBlur={() => setFocus(false)}
-              />
-            </form>
+            <CommandInput
+              name={engines[engine].name}
+              placeholder={`Search in ${engines[engine].title}...`}
+              value={value}
+              onValueChange={setValue}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+            />
             <CommandList hidden={!focus}>
               {value !== "" && (
                 <>
@@ -66,10 +61,8 @@ export function App() {
                     <CommandItem
                       forceMount
                       onSelect={() => {
-                        const form = document.getElementById(
-                          "search"
-                        ) as HTMLFormElement;
-                        form.submit();
+                        pushToHistory(value);
+                        search(value, engines[engine]);
                       }}
                     >
                       <span>{value}</span>
@@ -81,9 +74,18 @@ export function App() {
                 </>
               )}
               <CommandSeparator />
-              <CommandGroup heading="History">
-                <CommandItem>Profile</CommandItem>
-              </CommandGroup>
+              {!!history.length && (
+                <CommandGroup heading="History">
+                  {history.map((v, k) => (
+                    <CommandItem
+                      onSelect={() => search(v, engines[engine])}
+                      key={k}
+                    >
+                      {v}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
             </CommandList>
           </Command>
           <Select
