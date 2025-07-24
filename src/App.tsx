@@ -61,22 +61,25 @@ export function App() {
             </form>
             <CommandList hidden={!focus}>
               {value !== "" && (
-                <CommandGroup heading="Search">
-                  <CommandItem
-                    onSelect={() => {
-                      const form = document.getElementById(
-                        "search"
-                      ) as HTMLFormElement;
-                      form.submit();
-                    }}
-                  >
-                    <span>{value}</span>
-                  </CommandItem>
-                </CommandGroup>
+                <>
+                  <CommandGroup forceMount heading="Search">
+                    <CommandItem
+                      forceMount
+                      onSelect={() => {
+                        const form = document.getElementById(
+                          "search"
+                        ) as HTMLFormElement;
+                        form.submit();
+                      }}
+                    >
+                      <span>{value}</span>
+                    </CommandItem>
+                  </CommandGroup>
+                  <CommandGroup heading="Suggestions">
+                    <CommandItem>Calendar</CommandItem>
+                  </CommandGroup>
+                </>
               )}
-              <CommandGroup heading="Suggestions">
-                <CommandItem>alendar</CommandItem>
-              </CommandGroup>
               <CommandSeparator />
               <CommandGroup heading="History">
                 <CommandItem>Profile</CommandItem>
