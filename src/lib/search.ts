@@ -1,10 +1,6 @@
-export interface SearchEngineProps {
-  title: string;
-  url: string;
-  name: string;
-}
+import type { ISearchEngine } from "@/types/search-engine";
 
-export function search(value: string, engine: SearchEngineProps) {
+export function search(value: string, engine: ISearchEngine) {
   window.location.href = `${engine.url}?${new URLSearchParams({
     [engine.name]: value,
   }).toString()}`;

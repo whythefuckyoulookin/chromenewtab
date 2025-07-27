@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer base {
+  @font-face {
+    font-family: Jetbrains;
+    src: url(/assets/font/JetBrainsMono-Regular.woff2) format(woff2);
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -112,9 +119,27 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 select-none;
+    font-family: Jetbrains;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.rdp-footer {
+  max-width: 100%;
+  display: flex;
+}
+.custom-pointers .react-colorful__saturation-pointer,
+.custom-pointers .react-colorful__hue-pointer {
+  @apply size-4;
+}
+
+.custom-pointers .react-colorful__hue {
+  @apply h-4 mt-2 rounded-sm;
+}
+
+.custom-pointers .react-colorful__saturation {
+  @apply rounded-sm;
 }

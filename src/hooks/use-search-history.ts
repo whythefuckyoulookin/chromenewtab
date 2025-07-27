@@ -1,16 +1,12 @@
-/**
- * a raw, unoptimized version of the hook...
- * don't look at him...
- * yet.
- */
-
 import { useCallback, useRef, useSyncExternalStore } from "react";
 
-export function useSearchHistory(): [string[], (newItem: string) => void] {
-  const lastSnapshotRef = useRef([]);
+const LOCAL_STORAGE_KEY = "search-history";
+
+export function useSearchHistory() {
+  const lastSnapshotRef = useRef<string[]>([]);
 
   const getSnapshot = useCallback(() => {
-    const storedHistory = localStorage.getItem("search-history");
+    const storedHistory = localStorage.getItem(LOCAL_STORAGE_KEY);
     try {
       if (!storedHistory) return lastSnapshotRef.current;
       if (JSON.stringify(lastSnapshotRef.current) !== storedHistory)
@@ -23,7 +19,7 @@ export function useSearchHistory(): [string[], (newItem: string) => void] {
 
   const subscribe = useCallback((callback: () => void) => {
     const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === "search-history") callback();
+      if (event.key === LOCAL_STORAGE_KEY) callback();
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
@@ -34,7 +30,7 @@ export function useSearchHistory(): [string[], (newItem: string) => void] {
   const addToHistory = useCallback(
     (newItem: string) =>
       localStorage.setItem(
-        "search-history",
+        LOCAL_STORAGE_KEY,
         history.length < 5
           ? JSON.stringify([newItem, ...history])
           : JSON.stringify([newItem, ...history.slice(0, -1)])
@@ -42,5 +38,20 @@ export function useSearchHistory(): [string[], (newItem: string) => void] {
     [history]
   );
 
-  return [history, addToHistory];
+  // const removeFromHistory = useCallback(
+  //   (item: string) => {
+  //     localStorage.setItem(
+  //       LOCAL_STORAGE_KEY,
+  //       JSON.stringify(history.filter((v) => v !== item))
+  //     );
+  //     window.dispatchEvent(
+  //       new StorageEvent("storage", {
+  //         key: LOCAL_STORAGE_KEY,
+  //       })
+  //     );
+  //   },
+  //   [history]
+  // );
+
+  return { history, addToHistory };
 }
