@@ -1,13 +1,13 @@
 import "./index.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Bookmarks } from "./components/bookmarks";
 import { Clock } from "./components/clock";
 import { ThemeSelect } from "./components/theme-select";
 import { Credits } from "./components/credits";
-import { SearchBox } from "./components/search-box";
+import { SearchBox } from "./components/search-box/search-box";
 import { Calendar } from "./components/calendar";
 import { Greeting } from "./components/greeting";
+import { Bookmarks } from "./components/bookmarks/bookmarks";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

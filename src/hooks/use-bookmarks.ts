@@ -27,28 +27,43 @@ export function useBookmarks() {
   const lastSnapshotRef = useRef([]);
 
   const bookmarks = useSyncExternalStore(subscribe, () =>
-    getSnapshot(lastSnapshotRef)
+    getSnapshot(lastSnapshotRef),
   );
 
   const addBookmark = (newBookmark: IBookmark) => {
     localStorage.setItem(
       LOCAL_STORAGE_KEY,
-      JSON.stringify([...bookmarks, newBookmark])
+      JSON.stringify([...bookmarks, newBookmark]),
     );
     window.dispatchEvent(
-      new StorageEvent("storage", { key: LOCAL_STORAGE_KEY })
+      new StorageEvent("storage", { key: LOCAL_STORAGE_KEY }),
+    );
+  };
+
+  const editBookmark = (
+    bookmarkTitle: IBookmark["title"],
+    newBookmark: IBookmark,
+  ) => {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify(
+        bookmarks.map((v) => (v.title === bookmarkTitle ? newBookmark : v)),
+      ),
+    );
+    window.dispatchEvent(
+      new StorageEvent("storage", { key: LOCAL_STORAGE_KEY }),
     );
   };
 
   const removeBookmark = (bookmarkTitle: IBookmark["title"]) => {
     localStorage.setItem(
       LOCAL_STORAGE_KEY,
-      JSON.stringify(bookmarks.filter((v) => v.title !== bookmarkTitle))
+      JSON.stringify(bookmarks.filter((v) => v.title !== bookmarkTitle)),
     );
     window.dispatchEvent(
-      new StorageEvent("storage", { key: LOCAL_STORAGE_KEY })
+      new StorageEvent("storage", { key: LOCAL_STORAGE_KEY }),
     );
   };
 
-  return { bookmarks, addBookmark, removeBookmark };
+  return { bookmarks, addBookmark, editBookmark, removeBookmark };
 }

@@ -7,10 +7,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 import { engines } from "@/data/search-engines";
 import type { SearchEngine } from "@/types/search-engine";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export function SearchEngineSelect() {
   const { engine, setEngine } = useSearchEngine("google");
@@ -19,7 +19,11 @@ export function SearchEngineSelect() {
     <Select value={engine} onValueChange={(v) => setEngine(v as SearchEngine)}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <SelectTrigger className="w-36" data-with-icon>
+          <SelectTrigger
+            className="w-36"
+            data-with-icon
+            aria-label="Select search engine"
+          >
             <SelectValue />
           </SelectTrigger>
         </TooltipTrigger>
@@ -30,13 +34,13 @@ export function SearchEngineSelect() {
       <SelectContent
         onCloseAutoFocus={(e) => e.preventDefault()}
         align="end"
-        className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        className="bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur"
       >
         <SelectGroup>
           <SelectLabel>Engines</SelectLabel>
           {Object.entries(engines).map((v, i) => (
             <SelectItem key={i} value={v[0]}>
-              <img src={`/assets/img/engines/${v[0]}.png`} alt="" />
+              <img src={`/assets/img/engines/${v[0]}.png`} alt="" width={16} height={16} />
               {v[1].title}
             </SelectItem>
           ))}

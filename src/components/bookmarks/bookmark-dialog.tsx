@@ -1,5 +1,3 @@
-import { useBookmarks } from "@/hooks/use-bookmarks";
-import { Button } from "./ui/button";
 import {
   Dialog,
   DialogClose,
@@ -7,12 +5,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Card } from "./ui/card";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+} from "../ui/dialog";
+import { useContext, useEffect } from "react";
+import { BookmarksContext } from "./bookmarks-provider";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -20,12 +16,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+} from "../ui/form";
+import { Input } from "../ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../ui/popover";
+import { Button } from "../ui/button";
 import { HexColorPicker } from "react-colorful";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useBookmarks } from "@/hooks/use-bookmarks";
 
 const formSchema = z.object({
   title: z.string().min(3).max(16),
@@ -33,42 +35,50 @@ const formSchema = z.object({
   color: z.string(),
 });
 
-export function AddBookmarkCard() {
-  const { addBookmark } = useBookmarks();
-  const [open, setOpen] = useState(false);
+export function BookmarkDialog() {
+  const { open, setOpen, editingBookmark, setEditingBookmark } =
+    useContext(BookmarksContext);
+  const { editBookmark, addBookmark } = useBookmarks();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { title: "", url: "", color: "" },
+    defaultValues: {
+      title: editingBookmark?.title || "",
+      url: editingBookmark?.url || "",
+      color: editingBookmark?.color || "",
+    },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    addBookmark(data);
+  useEffect(() => {
+    form.reset({
+      title: editingBookmark ? editingBookmark.title : "",
+      url: editingBookmark ? editingBookmark.url : "",
+      color: editingBookmark ? editingBookmark.color : "",
+    });
+  }, [editingBookmark]);
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    editingBookmark
+      ? editBookmark(editingBookmark.title, data)
+      : addBookmark(data);
+    onClose();
+  };
+
+  const onClose = () => {
     setOpen(false);
-  }
+    setEditingBookmark(null);
+  };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(v) => {
-        if (v) form.reset();
-        setOpen(v);
-      }}
-    >
-      <DialogTrigger asChild>
-        <Card className="hover:bg-muted cursor-pointer transition-colors bg-background">
-          <PlusIcon className="size-10 mx-auto mt-auto rounded-full" />
-          <p className="text-nowrap text-center mt-auto font-semibold">
-            Add bookmark
-          </p>
-        </Card>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New bookmark</DialogTitle>
+          <DialogTitle>
+            {editingBookmark ? "Edit bookmark" : "New bookmark"}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-            <div className="flex gap-4 items-start">
+            <div className="flex items-start gap-4">
               <FormField
                 control={form.control}
                 name="title"
@@ -86,7 +96,7 @@ export function AddBookmarkCard() {
                 control={form.control}
                 name="color"
                 render={({ field }) => (
-                  <div className="flex gap-2 items-end">
+                  <div className="flex items-end gap-2">
                     <FormItem>
                       <FormLabel>Custom color</FormLabel>
                       <FormControl>

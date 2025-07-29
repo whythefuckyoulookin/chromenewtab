@@ -5,6 +5,7 @@
   @font-face {
     font-family: Jetbrains;
     src: url(/assets/font/JetBrainsMono-Regular.woff2) format(woff2);
+    font-display: fallback;
   }
 }
 
@@ -137,7 +138,7 @@
 }
 
 .custom-pointers .react-colorful__hue {
-  @apply h-4 mt-2 rounded-sm;
+  @apply mt-2 h-4 rounded-sm;
 }
 
 .custom-pointers .react-colorful__saturation {

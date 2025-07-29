@@ -40,6 +40,7 @@ export function ThemeSelect() {
             variant="outline"
             className="absolute top-0 right-0 mt-12 mr-12 group"
             size="icon"
+            aria-label="Select theme"
           >
             <SelectTrigger data-value={theme}>
               <SunIcon className="group-data-[value=light]:block hidden" />

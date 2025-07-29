@@ -5,7 +5,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "./ui/command";
+} from "../ui/command";
 import { useState } from "react";
 import { useSearchHistory } from "@/hooks/use-search-history";
 import { search } from "@/lib/search";
