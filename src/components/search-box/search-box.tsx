@@ -1,12 +1,15 @@
+import { useSettings } from "@/hooks/use-settings";
 import { SearchEngineSelect } from "./search-engine-select";
 import { SearchInput } from "./search-input";
 
 export function SearchBox() {
+  const { settings } = useSettings();
+
   return (
-    <div className="w-full relative">
-      <div className="absolute w-full flex items-start justify-center gap-2">
+    <div className="relative w-full">
+      <div className="absolute flex w-full items-start justify-center gap-2">
         <SearchInput />
-        <SearchEngineSelect />
+        {settings.includes("engine") && <SearchEngineSelect />}
       </div>
     </div>
   );
