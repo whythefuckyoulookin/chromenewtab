@@ -12,9 +12,11 @@ import { engines } from "@/data/search-engines";
 import { useSearchEngine } from "@/hooks/use-search-engine";
 import { useDebounce } from "@/hooks/use-debounce";
 import { HistoryIcon, SearchIcon } from "lucide-react";
+import { useTranslation } from "i18nano";
 
 export function SearchInput() {
   const { engine } = useSearchEngine("google");
+  const t = useTranslation()
   const { addToHistory, history } = useSearchHistory();
   const [value, setValue] = useState("");
   const debouncedSearchTerm = useDebounce(value, 500);
@@ -62,7 +64,7 @@ export function SearchInput() {
       <div className="relative">
         <CommandInput
           onFocus={() => setFocus(true)}
-          placeholder={`Search in ${engines[engine].title}...`}
+          placeholder={t("search.input.placeholder", {engine: engines[engine].title})}
           value={value}
           ref={inputRef}
           className="pr-16"

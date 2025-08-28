@@ -1,0 +1,26 @@
+{
+  "search": {
+    "tooltip": {
+      "prefix": "Now to enable suggestions, open",
+      "link": "link",
+      "suffix": "and request temporary access"
+    },
+    "input": {
+      "placeholder": "Search in {{engine}}..."
+    },
+    "engine": {
+      "tooltip": "Pick search engine",
+      "ariaLabel": "Search engine select",
+      "label": "Engines"
+    }
+  },
+  "credits": "Created by:",
+  "settings": {
+    "clock": "Show clock",
+    "greeting": "Show greeting",
+    "themeSelect": "Show theme select",
+    "searchEngineSelect": "Show search engine select",
+    "bookmarks": "Show bookmarks",
+    "calendar": "Show calendar"
+  }
+}

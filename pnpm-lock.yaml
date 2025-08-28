@@ -53,6 +53,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      i18nano:
+        specifier: ^4.1.0
+        version: 4.1.0(react@19.1.0)
       lucide-react:
         specifier: ^0.525.0
         version: 0.525.0(react@19.1.0)
@@ -1423,6 +1426,11 @@ packages:
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
+
+  i18nano@4.1.0:
+    resolution: {integrity: sha512-3nbpILhBzu8Hzn/7ePxjkGzFpWaVY+E1Ok/dyclfPqA72s0uygtJ/e1YIBiXV8vMbmpqLqcRRJVXbAbA/rXnww==}
+    peerDependencies:
+      react: ^18.2.0 || ^19.0.0
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -3252,6 +3260,10 @@ snapshots:
   graphemer@1.4.0: {}
 
   has-flag@4.0.0: {}
+
+  i18nano@4.1.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
 
   ignore@5.3.2: {}
 

@@ -11,9 +11,11 @@ import {
 import { engines } from "@/data/search-engines";
 import type { SearchEngine } from "@/types/search-engine";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useTranslation } from "i18nano";
 
 export function SearchEngineSelect() {
   const { engine, setEngine } = useSearchEngine("google");
+  const t = useTranslation()
 
   return (
     <Select value={engine} onValueChange={(v) => setEngine(v as SearchEngine)}>
@@ -22,13 +24,13 @@ export function SearchEngineSelect() {
           <SelectTrigger
             className="w-36"
             data-with-icon
-            aria-label="Select search engine"
+            aria-label={t("search.engine.ariaLabel")}
           >
             <SelectValue />
           </SelectTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Pick search engine</p>
+          <p>{t("search.engine.tooltip")}</p>
         </TooltipContent>
       </Tooltip>
       <SelectContent
@@ -37,7 +39,7 @@ export function SearchEngineSelect() {
         className="bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur"
       >
         <SelectGroup>
-          <SelectLabel>Engines</SelectLabel>
+          <SelectLabel>{t("search.engine.label")}</SelectLabel>
           {Object.entries(engines).map((v, i) => (
             <SelectItem key={i} value={v[0]}>
               <img src={`/assets/img/engines/${v[0]}.png`} alt="" width={16} height={16} />

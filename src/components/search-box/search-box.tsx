@@ -3,9 +3,11 @@ import { SearchEngineSelect } from "./search-engine-select";
 import { SearchInput } from "./search-input";
 import { CircleQuestionMarkIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useTranslation } from "i18nano";
 
 export function SearchBox() {
   const { settings } = useSettings();
+  const t = useTranslation()
 
   return (
     <div className="relative w-full">
@@ -15,7 +17,7 @@ export function SearchBox() {
             <CircleQuestionMarkIcon className="text-muted-foreground hover:text-foreground mt-2.5 flex size-5" />
           </TooltipTrigger>
           <TooltipContent side="left" className="text-center">
-            Now to enable suggestions, open
+            {t("search.tooltip.prefix")}
             <br />
             <a
               className="underline"
@@ -23,9 +25,9 @@ export function SearchBox() {
               rel="noopener noreferrer"
               href="https://cors-anywhere.herokuapp.com/corsdemo"
             >
-              link
+              {t("search.tooltip.link")}
             </a>{" "}
-            and request temporary access
+            {t("search.tooltip.suffix")}
           </TooltipContent>
         </Tooltip>
         <SearchInput />

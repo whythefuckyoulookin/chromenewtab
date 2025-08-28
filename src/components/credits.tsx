@@ -1,7 +1,9 @@
+import { useTranslation } from "i18nano";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function Credits() {
+  const t = useTranslation()
   return (
     <div className="absolute bottom-0 mb-12">
       <Tooltip>
@@ -17,7 +19,7 @@ export function Credits() {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Created by:</p>
+          <p>{t("credits")}</p>
         </TooltipContent>
       </Tooltip>
     </div>
