@@ -18,29 +18,33 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { HexColorPicker } from "react-colorful";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import {
+  string as vString,
+  pipe as vPipe,
+  url as vUrl,
+  object as vObject,
+  minLength as vMinLength,
+  maxLength as vMaxLength,
+  type InferInput as vInferInput,
+} from "valibot";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 
-const formSchema = z.object({
-  title: z.string().min(3).max(16),
-  url: z.url(),
-  color: z.string(),
+const formSchema = vObject({
+  title: vPipe(vString(), vMinLength(3), vMaxLength(16)),
+  url: vPipe(vString(), vUrl()),
+  color: vString(),
 });
 
 export function BookmarkDialog() {
   const { open, setOpen, editingBookmark, setEditingBookmark } =
     useContext(BookmarksContext);
   const { editBookmark, addBookmark } = useBookmarks();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<vInferInput<typeof formSchema>>({
+    resolver: valibotResolver(formSchema),
     defaultValues: {
       title: editingBookmark?.title || "",
       url: editingBookmark?.url || "",
@@ -56,7 +60,8 @@ export function BookmarkDialog() {
     });
   }, [editingBookmark]);
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: vInferInput<typeof formSchema>) => {
+    // const onSubmit = (data: any) => {
     editingBookmark
       ? editBookmark(editingBookmark.title, data)
       : addBookmark(data);
