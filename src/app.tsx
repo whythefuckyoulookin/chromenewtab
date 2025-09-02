@@ -1,11 +1,11 @@
 import { SearchBox } from "./components/search-box/search-box";
 import { SettingsPopover } from "./components/settings-popover";
 import { useSettings } from "./hooks/use-settings";
-import { Credits } from "./components/credits";
 import { lazyNamed } from "./lib/lazy-named";
 import { TranslationProvider } from "i18nano";
 import { getTranslations } from "./i18n/constants";
 
+const Credits = lazyNamed(() => import("./widgets/credits"), "Credits")
 const Calendar = lazyNamed(() => import("./components/calendar"), "Calendar");
 const Clock = lazyNamed(() => import("./components/clock"), "Clock");
 const Greeting = lazyNamed(() => import("./components/greeting"), "Greeting");
@@ -35,8 +35,10 @@ export function App() {
       >
         <SettingsPopover />
         <SearchBox />
-        <Credits />
       </TranslationProvider>
+      <div className="absolute bottom-0 mb-12">
+        <Credits />
+      </div>
 
       {settings.includes("clock") && <Clock />}
       {settings.includes("bookmarks") && (
