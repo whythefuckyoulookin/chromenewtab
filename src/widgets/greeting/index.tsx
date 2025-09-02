@@ -6,13 +6,13 @@ const translations = {
   en: () => import("./i18n/en.json"),
 };
 
-interface CreditsProps {
+interface GreetingProps {
   language?: string;
 }
 
-export function Credits({
+export function Greeting({
   language = navigator.language.split("-")[0],
-}: CreditsProps) {
+}: GreetingProps) {
   return (
     <TranslationProvider translations={translations} language={language}>
       <Widget />

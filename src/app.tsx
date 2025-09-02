@@ -8,7 +8,7 @@ import { getTranslations } from "./i18n/constants";
 const Credits = lazyNamed(() => import("./widgets/credits"), "Credits")
 const Calendar = lazyNamed(() => import("./components/calendar"), "Calendar");
 const Clock = lazyNamed(() => import("./components/clock"), "Clock");
-const Greeting = lazyNamed(() => import("./components/greeting"), "Greeting");
+const Greeting = lazyNamed(() => import("./widgets/greeting"), "Greeting");
 const Bookmarks = lazyNamed(
   () => import("./components/bookmarks/bookmarks"),
   "Bookmarks",

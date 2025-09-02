@@ -3,7 +3,7 @@ export const LANGUAGES = [
 ] as const;
 
 export const MODULES = [
-  'bookmarks', 'calendar', 'clock', 'common', 'greeting', 'settings', 'theme-select'
+  'bookmarks', 'calendar', 'clock', 'common', 'settings', 'theme-select'
 ] as const;
 
 
